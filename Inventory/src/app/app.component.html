@@ -1,0 +1,52 @@
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+ 
+
+</head>
+<body>
+<ng-container *ngIf="!isAuthenticated;">
+
+  <app-login></app-login>
+</ng-container>
+ <ng-container *ngIf="isAuthenticated">
+<nav class="navbar bg-primary" data-bs-theme="dark" >
+  
+       <div class="col-md-6">
+      <button 
+      class="navbar-toggler btn-block bg-primary bg-gradient " 
+      style=" color:white;border: 2px;border-color: white;" 
+      id="sidebarToggle"
+       type="button" 
+       data-bs-toggle="collapse" 
+       data-bs-target="#navbarNav" 
+       aria-controls="navbarNav" 
+       >☰</button>
+      <a class="navbar-brand" style="color: antiquewhite; font-size:large;font-family: georgia; font-size:20px;font-weight: bolder;" [routerLink]="'dashboard'">
+          <i class="fas fa-home"></i> INVENTORY 
+      </a>
+      
+
+      </div>
+      <div class=" col-md-5"></div>
+      <div class="col-md-1 justify-content-end">
+        <button type="button" class="btn btn-primary bg-gradient"(click)="logout()" style="font-size:20px;font-weight: bolder;">Logout<i class="bi bi-power" style="color: white;"></i>
+        </button>
+    
+      </div>
+ 
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 p-0">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-md-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+  
+</div>
+
+</ng-container> 
+</body>

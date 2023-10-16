@@ -1,0 +1,31 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../../assets/images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.login-form {
+    margin-left: 35%;
+    border-radius: 25px;
+    border: 1px solid rgb(10, 126, 235); 
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.login-heading {
+    color:rgb(10, 126, 235);
+    font-family: 'Bodoni';
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+.has-error {
+    border: 1px solid red;
+  }
+  

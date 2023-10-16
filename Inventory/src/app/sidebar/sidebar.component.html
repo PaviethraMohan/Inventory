@@ -1,0 +1,22 @@
+<div class="sidebar bg-dark">
+    <nav class="navbar bg-dark">
+      <!-- Sidebar content -->
+      <ul class="nav flex-column">
+        <li class="nav-item text-light" *ngFor="let mainmenu of menus">
+          <a class="nav-link text-light" *ngIf="mainmenu.parentMenuId===0"(click)="toggleSubMenu(mainmenu)" [routerLink]="mainmenu.path">
+            {{ mainmenu.menuName }}
+          </a>           
+          <!-- Display sub-menu items when the main menu is clicked -->
+          <ul *ngIf="showsubMenu">
+            <div *ngFor="let submenu of menus">
+            <li class="nav-item text-light"  *ngIf="mainmenu.menuId === submenu.parentMenuId">
+              <a class="nav-link text-light" [routerLink]="submenu.path">{{ submenu.menuName }}</a>
+              
+            </li>
+           </div>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  

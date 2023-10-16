@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-6" style="white-space: nowrap;">
+            <h1 class="text-primary" style="font-weight:bolder;">Roles</h1>
+        </div>
+        <div class="col-3 text-end" style="white-space: nowrap;">
+          
+             <a class="btn btn-outline-primary" (click)="openCreateRoleModal()"><i class="bi bi-plus-square-fill"></i> Create
+            </a>
+            
+        </div>
+        <app-create *ngIf="showCreateRoleModal" (onModalClose)="closeCreateRoleModal()"></app-create>
+    </div>
+</div>
+<div class="container">
+    <div class="table-responsive">
+<table class="table" *ngIf="rolemaster && rolemaster.length>0">
+    <thead >
+      <tr>
+        <th class="col-6"style="color:white;background-color:#35a7e8;font-size:large;">Role Name</th>
+        <th class="col-6"style="color:white;background-color:#35a7e8;font-size:large;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let role of rolemaster">
+            <td style="font-size: large;">{{role.roleName}}</td>
+            <div *ngIf="role.statusFlag===false">
+              <td style="font-size: large;">
+                <a class="btn btn-success"style="margin-right:1px"(click)="update(role)">Update<i class="bi bi-pencil-square"></i></a>
+                <a class="btn btn-danger delete-button" data-toggle="modal" data-target="#confirmationModal" (click)="delete(role.roleId)">Delete<i class="bi bi-trash-fill"></i>
+                </a>
+              </td>
+            </div>
+            <div *ngIf="role.statusFlag===true">
+              <td style="font-size: large;">
+                <button class="btn btn-primary activate-button" data-toggle="modal" data-target="#activateModal" (click)="activate(role.roleId)"><i class="bi bi-check"></i> Activate</button>
+               
+              </td>
+            </div>
+            
+            
+        </tr>
+      
+    </tbody>
+  </table>
+  
+</div>
+  <p *ngIf="!rolemaster || rolemaster.length<=0">No roles found</p>
+</div>
+
