@@ -14,7 +14,7 @@ export class RolemasterService {
   baseApiUrl: string = environment.baseApiUrl;
   private usertoken: string = '';
   constructor(private http: HttpClient,private sessionService:SessionService) { 
-    this.usertoken=sessionService.getToken();
+    this.usertoken=sessionService.getToken()|| '';
   }
 
   getAllRoles(): Observable<APIResponse<any>> {

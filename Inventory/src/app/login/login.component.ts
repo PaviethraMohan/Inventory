@@ -37,11 +37,8 @@ export class LoginComponent {
       
       this.authService.login(this.username, this.password).subscribe(
         (response) => {
-          // Check if the login was successful and handle accordingly
           if (response.isSuccess) {
-            // Store the token in local storage or session storage
             localStorage.setItem('token', response.token);
-            console.log(response.result.token);
             this.authService.setAuthenticated(true);
             this.router.navigate(['dashboard'],{relativeTo:this.route});
             this.sessionService.setToken(response.result.token);

@@ -14,7 +14,7 @@ export class SidebarService {
   baseApiUrl: string = environment.baseApiUrl;
 
   constructor(private http: HttpClient,private sessionService:SessionService) { 
-    this.usertoken=sessionService.getToken();
+    this.usertoken=sessionService.getToken()|| '';
   }
   
   getMenus(){

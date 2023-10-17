@@ -65,8 +65,8 @@ export class RoleMasterComponent implements OnInit {
     $('#updateRoleModal').modal('show');
   }
   
-updateRole() {
-  if (this.selectedRole && this.updatedRoleName !== null) {
+  updateRole() {
+    if (this.selectedRole && this.updatedRoleName !== null) {
     this.selectedRole.roleName = this.updatedRoleName;
     this.rolemasterService.updateRole(this.selectedRole).subscribe({
       next: () => {
@@ -78,15 +78,11 @@ updateRole() {
       }
     });
     this.updatedRoleName = null; 
+    }
   }
-}
-
-
-closeUpdateRoleModal() {
-  $('#updateRoleModal').modal('hide');
-}
-
-
+  closeUpdateRoleModal() {
+    $('#updateRoleModal').modal('hide');
+  }
   openDeleteConfirmation(roleId: number) {
     this.roleToDelete = roleId;
     $('#confirmationModal').modal('show'); // Show the confirmation modal

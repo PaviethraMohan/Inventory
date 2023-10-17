@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit{
   isAuthenticated:boolean=true;
   submenus:MenuMaster[]=[];
 constructor(private sessionService:SessionService,private sidebarService:SidebarService,private authService:AuthService){
-   this.sessionToken=this.sessionService.getToken();
+   this.sessionToken=this.sessionService.getToken()|| '';
 }
 toggleSubMenu(mainmenu:any) {
   this.submenus=[];
