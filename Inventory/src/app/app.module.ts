@@ -13,6 +13,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SessionService } from './services/session.service';
 import { RoleMasterComponent } from './role-master/role-master.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,11 @@ import { RoleMasterComponent } from './role-master/role-master.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([]),
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule
+    
     
   ],
   providers: [ApiserviceService,SessionService],

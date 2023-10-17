@@ -1,22 +1,25 @@
-<div class="sidebar bg-dark">
-    <nav class="navbar bg-dark">
-      <!-- Sidebar content -->
-      <ul class="nav flex-column">
-        <li class="nav-item text-light" *ngFor="let mainmenu of menus">
-          <a class="nav-link text-light" *ngIf="mainmenu.parentMenuId===0"(click)="toggleSubMenu(mainmenu)" [routerLink]="mainmenu.path">
-            {{ mainmenu.menuName }}
-          </a>           
-          <!-- Display sub-menu items when the main menu is clicked -->
-          <ul *ngIf="showsubMenu">
-            <div *ngFor="let submenu of menus">
-            <li class="nav-item text-light"  *ngIf="mainmenu.menuId === submenu.parentMenuId">
-              <a class="nav-link text-light" [routerLink]="submenu.path">{{ submenu.menuName }}</a>
-              
-            </li>
-           </div>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body >
+  <div class="sidebar bg-dark bg-gradient">
+  <nav class="navbar bg-dark">
+    <ul class="nav flex-column">
+      <li class="nav-item text-light" *ngFor="let mainmenu of menus">
+        <div *ngIf="mainmenu.parentMenuId===0" class="justify-content-end">
+        <button class="btn" style="color:white;font-size: 16px;"(click)="toggleSubMenu(mainmenu)" [routerLink]="mainmenu.path">
+          {{ mainmenu.menuName }}         
+          <i *ngIf="hasSubmenus(mainmenu.menuId)==true" class="fa fa-chevron-right"  style="padding-right: 5px;font-size:15px;"></i>  
+   </button>        
+      </div>
+        <div *ngIf="selectedMainMenuItem === mainmenu" style="padding-left: 8px;">
+          <div *ngFor="let submenu of submenus">
+            <button class="nav-link text-light" style="color:white;font-size: 16px;"[routerLink]="submenu.path">{{ submenu.menuName }}</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>
+</body>

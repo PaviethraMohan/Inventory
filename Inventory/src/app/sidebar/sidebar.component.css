@@ -1,3 +1,4 @@
+
 .sidebar {
     height: 100vh; /* Set the height to 100% of the viewport height */
     color: white;
@@ -8,3 +9,32 @@
     color: white; /* Change the text color as needed */
 
   }
+  .fa-caret-down {
+    float: right;
+    margin-top: 5px;
+    padding-right: 8px;
+}
+.body{
+  font-size: 25px;
+}
+.rotate-icon {
+  transition: transform 0.3s ease-in-out; /* Add a transition for smooth rotation */
+}
+
+.rotate-icon.rotate {
+  transform: rotate(90deg); /* Rotate the icon 90 degrees when the class is applied */
+}
+button {
+  margin: 10px;
+}
+
+.sidebar-expanded {
+  width: 200px; /* Set your desired width for the expanded sidebar */
+  transition: width 0.3s;
+}
+
+.sidebar-contracted {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s;
+}

@@ -29,11 +29,14 @@ export class RolemasterService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.usertoken}`
     });
-    //console.log(this.baseApiUrl+'/api/RoleMasterController/CreateRole');
     return this.http.post(this.baseApiUrl+'/api/RoleMasterController/CreateRole', data,{headers}); 
   }
   updateRole(newRole:RoleMaster){
-
+    let data:RoleMaster=newRole;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.usertoken}`
+    });
+    return this.http.put(this.baseApiUrl+'/api/RoleMasterController/RoleUpdate', data,{headers}); 
   }
   deleteRole(roleId: number) {
     const headers = new HttpHeaders({
