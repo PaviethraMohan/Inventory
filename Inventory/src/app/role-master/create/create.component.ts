@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RolemasterService } from 'src/app/services/rolemaster.service';
 //import * as $ from 'jquery';
 import 'bootstrap'; 
+import { ToastService } from 'src/app/services/toast.service';
 declare var $: any;
 @Component({
   selector: 'app-create',
@@ -19,41 +20,46 @@ export class CreateRoleComponent implements OnInit{
   
  };
  
- constructor(private roleService:RolemasterService,private router: Router){
+ constructor(private roleService:RolemasterService,
+  private router: Router,
+  private toastService: ToastService){
   $('#createRoleModal').modal('hide');
   this.onModalClose.emit();
  }
+
+
  openModal() {
   $('#createRoleModal').modal('show'); 
 }
 
 closeModal() {
-  $('#createRoleModal').modal('hide'); // Use jQuery to close the modal
+  $('#createRoleModal').modal('hide'); 
   this.onModalClose.emit();
 }
   ngOnInit(): void {}
-  save() {
-    // Call the service to send the roleName to the ASP.NET API
-    this.roleService.createRole(this.addroleName)
-      .subscribe({
-        next:(addroleName)=>{
-          $('#createRoleModal').modal('hide'); // Use jQuery to close the modal
-          this.onModalClose.emit();
-          this.router.navigate(['rolemaster']);
-        },
-        error: (error) => {
-          console.error('HTTP Request Error:', error);
-        }
-      }
-      );
-  }
   ngAfterViewInit(): void {
     $(document).ready(() => {
       this.openModal();
     });
   }
+  save() {
+    this.roleService.createRole(this.addroleName)
+      .subscribe({
+        next:(addroleName)=>{
+          this.toastService.showSuccess('Role added successfully');
+         $('#createRoleModal').modal('hide'); 
+          this.router.navigate(['rolemaster']);
+        },
+        error: (error) => {
+          this.toastService.showError(error.error.message[0]);
+          
+        }
+      }
+      );
+  }
+  
   cancel() {
-    $('#createRoleModal').modal('hide'); // Use jQuery to close the modal
+    $('#createRoleModal').modal('hide'); 
   this.onModalClose.emit();
   }
   

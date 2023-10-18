@@ -3,11 +3,11 @@
       <div class="col-6" style="white-space: nowrap;">
           <h1 class="text-primary" style="font-weight:bolder;">Roles</h1>
       </div>
-      <div class="col-3 text-end" style="white-space: nowrap;">
-        
-           <a class="btn btn-outline-primary" (click)="openCreateRoleModal()"><i class="bi bi-plus-square-fill"></i> Create
-          </a>
-          
+      <div class="col-3 text-end" style="white-space: nowrap;">        
+           <a class="btn btn-outline-primary" 
+              (click)="openCreateRoleModal()">
+              <i class="bi bi-plus-square-fill"></i> 
+              Create</a>          
       </div>
       <app-create *ngIf="showCreateRoleModal" (onModalClose)="closeCreateRoleModal()"></app-create>
   </div>
@@ -97,6 +97,7 @@
                 [(ngModel)]="updatedRoleName"  
                 required>          
           </div>
+         
         </form>
       </div>
       <div class="modal-footer">
@@ -106,4 +107,6 @@
       </div>
     </div>
   </div>
+ 
+ 
 </div>

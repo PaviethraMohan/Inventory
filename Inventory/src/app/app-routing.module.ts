@@ -13,7 +13,7 @@ const routes: Routes =
   {path:'rolemaster/createRole',component:CreateRoleComponent},
   {path:'login',component:LoginComponent},
   {path:'dashboard',component:DashboardComponent},
-  {path:'sidebar',component:SidebarComponent}
+  {path:'sidebar',component:SidebarComponent},
 ];
 
 @NgModule({

@@ -16,16 +16,22 @@ export class LoginComponent {
   error: string = '';
   isAuthenticated = false; 
   formSubmitted: boolean = false; 
+  errorMessage:string='';
   constructor(private authService: AuthService,private fb:FormBuilder,private router:Router,
     private route:ActivatedRoute,private sessionService:SessionService) {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
+    this.authService.setAuthenticated(false);
   }
   hasError(controlName: string, errorName: string) {
     const control = this.loginForm.get(controlName);
     return control && control.hasError(errorName);
+  }
+
+  errorMsg(errorMsg:string){
+    this.errorMessage=errorMsg;
   }
   onSubmit() {
     this.formSubmitted = true;
@@ -40,14 +46,16 @@ export class LoginComponent {
           if (response.isSuccess) {
             localStorage.setItem('token', response.token);
             this.authService.setAuthenticated(true);
-            this.router.navigate(['dashboard'],{relativeTo:this.route});
+            this.router.navigate(['dashboard'], { relativeTo: this.route });
             this.sessionService.setToken(response.result.token);
           } else {
-            this.error = 'Invalid username or password';
+              this.error = 'An error occurred during login.';
+            
           }
         },
         (error) => {
-          this.error = 'An error occurred during login.';
+          console.log(error.error.message[0]);
+          this.errorMsg(error.error.message[0]);
         }
       );
     }

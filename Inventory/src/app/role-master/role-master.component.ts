@@ -6,11 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
+import { ToastService } from '../services/toast.service';
 
 
 interface APIResponse {
   isSuccess: boolean;
-  result: RoleMaster[]; // Assuming RoleMaster is the correct type for your API response
+  result: RoleMaster[]; 
   message: string[];
 }
 
@@ -37,8 +38,9 @@ export class RoleMasterComponent implements OnInit {
   constructor(
     private rolemasterService: RolemasterService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private toastService: ToastService
+  ) {  }
   currentPageEvent: PageEvent = { pageIndex: 0, pageSize: this.pageSize, length: 0 };
 
   handlePageChange(event: PageEvent) {
@@ -70,11 +72,11 @@ export class RoleMasterComponent implements OnInit {
     this.selectedRole.roleName = this.updatedRoleName;
     this.rolemasterService.updateRole(this.selectedRole).subscribe({
       next: () => {
-        console.log('Role updated successfully');
-        $('#updateRoleModal').modal('hide');
+        this.toastService.showSuccess('Role updated successfully');
+        $('#updateRoleModal').modal('hide');       
       },
       error: (error) => {
-        console.error('HTTP Request Error:', error);
+        this.toastService.showError(error.error.message[0]);
       }
     });
     this.updatedRoleName = null; 
@@ -85,7 +87,7 @@ export class RoleMasterComponent implements OnInit {
   }
   openDeleteConfirmation(roleId: number) {
     this.roleToDelete = roleId;
-    $('#confirmationModal').modal('show'); // Show the confirmation modal
+    $('#confirmationModal').modal('show'); 
   }
   openActivateConfirmation(roleId:number){
     this.roleToActivate =roleId;
@@ -97,6 +99,7 @@ export class RoleMasterComponent implements OnInit {
       // Call the service to delete the role
       this.rolemasterService.deleteRole(this.roleToDelete).subscribe({
         next: () => {
+          this.toastService.showSuccess('Role deleted successfully');
           console.log('Deleted successfully');
           this.rolemasterService.getAllRoles().subscribe({
             next: (response: APIResponse) => {
@@ -108,10 +111,11 @@ export class RoleMasterComponent implements OnInit {
                 this.paginator.page.next(this.currentPageEvent);
               } else {
                 console.log(response.message);
+                
               }
             },
             error: (error) => {
-              console.error('HTTP Request Error:', error);
+              this.toastService.showError(error.error.message[0]);
             }
             
           });
@@ -120,7 +124,7 @@ export class RoleMasterComponent implements OnInit {
           $('#confirmationModal').modal('hide');
         },
         error: (error) => {
-          console.error('HTTP Request Error:', error);
+          this.toastService.showError(error.error.message[0]);
         }
       });
     }
@@ -130,7 +134,7 @@ export class RoleMasterComponent implements OnInit {
     if (this.roleToActivate !== null) {
       this.rolemasterService.activateRole(this.roleToActivate).subscribe({
         next: () => {
-          console.log('Activated successfully');
+          this.toastService.showSuccess('Role activated successfully');
           this.rolemasterService.getAllRoles().subscribe({
             next: (response: APIResponse) => {
               if (response.isSuccess) {
@@ -144,17 +148,14 @@ export class RoleMasterComponent implements OnInit {
               }
             },
             error: (error) => {
-              console.error('HTTP Request Error:', error);
-            }
-            
+              this.toastService.showError(error.error.message[0]);
+            }            
           });
-          
-
           this.roleToActivate = null;
           $('#activationModal').modal('hide');
         },
         error: (error) => {
-          console.error('HTTP Request Error:', error);
+          this.toastService.showError(error.error.message[0]);
         }
       });
     }
@@ -178,10 +179,11 @@ export class RoleMasterComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('HTTP Request Error:', error);
+        this.toastService.showError(error.error.message[0]);
       }
       
     });
   }
+  
 }
 
