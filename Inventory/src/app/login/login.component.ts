@@ -3,6 +3,7 @@ import { AuthService } from './loginservice.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,12 @@ export class LoginComponent {
   isAuthenticated = false; 
   formSubmitted: boolean = false; 
   errorMessage:string='';
-  constructor(private authService: AuthService,private fb:FormBuilder,private router:Router,
-    private route:ActivatedRoute,private sessionService:SessionService) {
+  constructor(private authService: AuthService,
+    private fb:FormBuilder,
+    private router:Router,
+    private route:ActivatedRoute,
+    private sessionService:SessionService,
+    private toastService:ToastService) {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
@@ -49,8 +54,7 @@ export class LoginComponent {
             this.router.navigate(['dashboard'], { relativeTo: this.route });
             this.sessionService.setToken(response.result.token);
           } else {
-              this.error = 'An error occurred during login.';
-            
+              this.error = 'An error occurred during login.';            
           }
         },
         (error) => {

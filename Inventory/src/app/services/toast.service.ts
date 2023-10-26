@@ -16,4 +16,8 @@ export class ToastService {
     this.toastr.error(message, title);
     console.log(message);
   }
+  showWelcome(message: string, title: string = '') {
+    this.toastr.info(message, title);
+    console.log(message);
+  }
 }

@@ -3,9 +3,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body >
-  <div class="sidebar bg-dark bg-gradient" >
-  <nav class="navbar bg-dark">
-    <ul class="nav flex-column">
+  <div class="sidebar" style="background-color: #31373c;" >
+  <nav class="navbar "style="background-color: #31373c;">
+    <ul class="nav flex-column" style="background-color: #31373c;">
       <li class="nav-item text-light" *ngFor="let mainmenu of menus">
         <div *ngIf="mainmenu.parentMenuId===0" class="justify-content-end">
         <button class="btn" style="color:white;font-size: 16px;"(click)="toggleSubMenu(mainmenu)" [routerLink]="mainmenu.path">

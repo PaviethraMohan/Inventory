@@ -1,0 +1,89 @@
+<div class="container mt-4">
+  <div class="row justify-content-between align-items-center">
+    <div class="col-6" style="white-space: nowrap;">
+      <h2 class="text-primary" style="font-weight:bolder;">States</h2>
+    </div>
+    <div class="col-3 text-end" style="white-space: nowrap;">
+      <a class="btn btn-outline-primary" (click)="createState()">
+        <i class="bi bi-plus-square-fill"></i>
+        Create</a>
+    </div>
+  </div>
+</div>
+<div class="container mt-4">
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort class="table table-striped" [@.disabled]="true">
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header
+          style="background-color: 	#2c9ad9; color: white; font-size:25px;">
+          State Name
+        </th>
+        <td mat-cell *matCellDef="let element" style="font-size:16px;">{{ element.state }}</td>
+      </ng-container>
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header
+          style="background-color: 	#2c9ad9; color: white; font-size:25px;">
+          Country Name
+        </th>
+        <td mat-cell *matCellDef="let element" style="font-size:16px;">{{ element.country }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <div class="text-end">
+          <th mat-header-cell *matHeaderCellDef
+            style="background-color: 	#2c9ad9; color: white; font-size:25px;padding-left:700px;">Action</th>
+        </div>
+        <td mat-cell *matCellDef="let element" style="padding-left: 700px;">
+          <div *ngIf="element.statusFlag===false">
+            <button class="btn btn-success me-2" (click)="openUpdateStateModal(element)">
+              <i class="fa fa-edit" style="font-size:20px"></i>
+            </button>
+            <button class="btn btn-danger delete-button" data-toggle="modal" data-target="#confirmationModal"
+              (click)="openDeleteConfirmation(element.stateCode)">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </div>
+          <div *ngIf="element.statusFlag===true">
+            <button class="btn btn-primary activate-button" data-toggle="modal" data-target="#activationModal"
+              (click)="openActivateConfirmation(element.stateCode)">
+              Activate <i class="bi bi-check"></i>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="handlePageChange($event)"
+      showFirstLastButtons></mat-paginator>
+  </div>
+  <p class="mt-3" *ngIf="!state || state.length <= 0">No roles found</p>
+</div>
+<div class="modal fade" id="createStateModal" tabindex="-1" role="dialog" aria-labelledby="createStateModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createStateModalLabel">Create State</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="stateName">State Name</label>
+          <input type="text" class="form-control" id="stateName" [(ngModel)]="newState">
+        </div>
+        <div class="form-group">
+          <label for="countryDropdown">Country</label>
+          <select class="form-control" id="countryDropdown" [(ngModel)]="selectedCountryId">
+            <option *ngFor="let country of country" [value]="country.countryId">{{ country?.country }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="createNewState()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,7 +18,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
+import { ProfileComponent } from './profile/profile.component';
+import { CountryComponent } from './country/country.component';
+import { StateComponent } from './state/state.component';
+import { CategoryComponent } from './category/category.component';
+import { LoginaccessComponent } from './loginaccess/loginaccess.component';
+import { RegisteruserComponent } from './registeruser/registeruser.component';
+import { EditComponent } from './registeruser/edit/edit.component';
+import { MatInputModule } from '@angular/material/input';   
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +37,14 @@ import { ToastrModule } from 'ngx-toastr';
     DashboardComponent,
     SidebarComponent,
     RoleMasterComponent,
+    ProfileComponent,
+    CountryComponent,
+    StateComponent,
+    CategoryComponent,
+    LoginaccessComponent,
+    RegisteruserComponent,
+    EditComponent,
+    
    
   ],
   imports: [
@@ -47,8 +65,10 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: true, 
       closeButton: true, 
     }),
-    
-    
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MomentDateModule
     
   ],
   providers: [ApiserviceService,SessionService],

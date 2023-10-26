@@ -6,3 +6,16 @@
     font-size: large;
 
 }
+.round-button {
+    width: 20px; /* Adjust the size as needed */
+    height: 20px; /* Adjust the size as needed */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    background-color:#31373c;; /* Button background color */
+    color: #ffffff; /* Text color */
+    border: none;
+    cursor: pointer;
+}

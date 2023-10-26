@@ -1,0 +1,364 @@
+<div class="container mt-4">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-6" style="white-space: nowrap;">
+            <h2 class="text-primary" style="font-weight: bolder;">Register Users</h2>
+        </div>
+        <div class="col-3 text-end" style="white-space: nowrap;">
+            <button class="btn btn-outline-primary" (click)="openCreateUserModal()">
+                <i class="bi bi-plus-square-fill"></i> Create
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort class="table table-striped" [@.disabled]="true">
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                    First Name
+                </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 16px;">{{ element.firstName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                    Last Name
+                </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 16px;">{{ element.lastName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                    Email
+                </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 16px;">{{ element.email }}</td>
+            </ng-container>
+            <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                    Country
+                </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 16px;">{{ element.country }}</td>
+            </ng-container>
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                    State
+                </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 16px;">{{ element.state }}</td>
+            </ng-container>
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                    Category
+                </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 16px;">{{ element.categoryMaster.categoryName
+                    }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <div class="text-end">
+                    <th mat-header-cell *matHeaderCellDef
+                        style="background-color: #2c9ad9; color: white; font-size: 25px;">
+                        Action
+                    </th>
+                </div>
+                <td mat-cell *matCellDef="let element">
+                    <div *ngIf="element.statusFlag === false">
+                        <!-- <button class="btn btn-success me-2" (click)="openUpdateUserModal(element)">
+                            <i class="fa fa-edit" style="font-size: 20px"></i>
+                        </button> -->
+                        <button class="btn btn-danger delete-button me-2" data-toggle="modal"
+                            data-target="#confirmationModal" (click)="openDeleteConfirmation(element.registerId)">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                        <button class="btn btn-primary view-button" data-toggle="modal" data-target="#userDetailsModal"
+                            (click)="openUserDetailsModal(element)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <div *ngIf="element.statusFlag === true">
+                        <button class="btn btn-success activate-button" data-toggle="modal"
+                            data-target="#activationModal" (click)="openActivateConfirmation(element.registerId)">
+                            Activate <i class="bi bi-check"></i>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="handlePageChange($event)"
+            showFirstLastButtons></mat-paginator>
+    </div>
+    <p class="mt-3" *ngIf="!dataSource.data || dataSource.data.length <= 0">No users found</p>
+</div>
+<div id="confirmationModal" class="modal fade" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Deletion</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="deleteConfirmedUser()">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onCancel()">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="activationModal" class="modal fade" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Activation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to activate this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="activateConfirmedUser()">Yes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onCancel()">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateModal" data-bs-backdrop="static" aria-labelledby="updateModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateUser()">
+                    <div class="form-group">
+                        <label for="updatedFirstName">First Name</label>
+                        <input type="text" class="form-control" id="updatedFirstName" name="updatedFirstName"
+                            [(ngModel)]="updatedFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updatedLastName">Email</label>
+                        <input type="text" class="form-control" id="updatedLastName" name="updatedLastName"
+                            [(ngModel)]="updatedLastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updatedEmail">Email</label>
+                        <input type="email" class="form-control" id="updatedEmail" name="updatedEmail"
+                            [(ngModel)]="updatedEmail" required>
+                    </div>
+                    <!-- Add other form fields as needed -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="updateUser()">Save changes</button>
+
+                <button type="button" class="btn btn-danger" (click)="closeUpdateModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createUserModal" data-bs-backdrop="static" aria-labelledby="createUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="createUserModalLabel">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form #userForm="ngForm" (ngSubmit)="createUser()" novalidate>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createFirstName" class="fw-bold">First Name</label>
+                                <input type="text" [(ngModel)]="createUserForm.firstName" name="firstName"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createLastName" class="fw-bold">Last Name</label>
+                                <input type="text" [(ngModel)]="createUserForm.lastName" name="lastName"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createEmail" class="fw-bold">Email</label>
+                                <input type="email" [(ngModel)]="createUserForm.email" name="email" class="form-control"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createCategory" class="fw-bold">Category</label>
+                                <select [(ngModel)]="createUserForm.category" name="category" class="form-select"
+                                    required>
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option *ngFor="let category of categoryList" [value]="category.categoryId">{{
+                                        category.categoryName }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createGender" class="fw-bold">Gender</label>
+                                <div>
+                                    <div class="form-check form-check-inline" style="font-size:20px;">
+                                        <input type="radio" id="createMale" name="gender" value="Male"
+                                            [(ngModel)]="createUserForm.gender" class="form-check-input" required>
+                                        <label for="createMale" class="form-check-label">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline" style="font-size:20px;">
+                                        <input type="radio" id="createFemale" name="gender" value="Female"
+                                            [(ngModel)]="createUserForm.gender" class="form-check-input" required>
+                                        <label for="createFemale" class="form-check-label">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createDOB" class="fw-bold">Date of Birth</label>
+                                <div>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [matDatepicker]="dobPicker" placeholder="Date of Birth" [(ngModel)]="createUserForm.dateOfBirth" name="dateOfBirth" required (dateChange)="onDateChange($event)">
+                                        <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #dobPicker></mat-datepicker>
+                                    </mat-form-field>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createPhoneNo">Phone Number</label>
+                                <input type="text" [(ngModel)]="createUserForm.phoneNo" name="phoneNo"
+                                    class="form-control" required pattern="^\d{10}$"inputmode="numeric">
+                                <div class="invalid-feedback">Please enter a valid Indian phone number.</div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createAddress">Address</label>
+                                <textarea [(ngModel)]="createUserForm.address" name="address" class="form-control" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createPostalCode">Postal Code</label>
+                                <input type="text" [(ngModel)]="createUserForm.postalCode" name="postalCode" class="form-control" required pattern="^[1-9]\d{5}$"inputmode="numeric">
+                                <div class="invalid-feedback">Please enter a valid 6-digit postal code that does not start with 0.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createCountry" class="fw-bold">Country</label>
+                                <select [(ngModel)]="createUserForm.country" name="country" class="form-select" required
+                                    (change)="onCountryChange(createUserForm.country)">
+                                    <option value="0" disabled selected>Select Country</option>
+                                    <option *ngFor="let country of countryList" [value]="country.countryId">{{
+                                        country.country }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="createState" class="fw-bold">State</label>
+                                <select [(ngModel)]="createUserForm.state" name="state" class="form-select" required>
+                                    <option value="" disabled selected>Select State</option>
+                                    <option *ngFor="let state of stateList" [value]="state.stateCode">{{ state.state }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-success" style="margin-right: 2%;" [disabled]="!userForm.valid"
+                        (click)="createUser()">Save</button>
+                    <button class="btn btn-primary me-md-2" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userDetailsModal" tabindex="-1" role="dialog" aria-labelledby="userDetailsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-6 d-flex justify-content-start">
+                    <h3 class="text-primary">User Details</h3>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <button class="btn btn-primary" (click)="edit()"><i class="fa fa-edit"></i>Edit</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>First Name:</strong> {{ selectedRegisterUser?.firstName }}</p>
+                        <p><strong>Last Name:</strong> {{ selectedRegisterUser?.lastName }}</p>
+                        <p><strong>Email:</strong> {{ selectedRegisterUser?.email }}</p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Phone:</strong> {{ selectedRegisterUser?.phoneNo }}</p>
+                        <p><strong>Gender:</strong> {{ selectedRegisterUser?.gender }}</p>
+                        <p><strong>Date of Birth:</strong> {{ selectedRegisterUser?.dateOfBirth | date: 'mediumDate' }}
+                        </p>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Address:</strong> {{ selectedRegisterUser?.address }}</p>
+                        <p><strong>Pincode:</strong> {{ selectedRegisterUser?.postalCode }}</p>
+                        <p><strong>Country:</strong> {{ selectedRegisterUser?.countryMasters?.country }}</p>
+                        <p><strong>State:</strong> {{ selectedRegisterUser?.stateMaster?.state }}</p>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Category:</strong> {{ selectedRegisterUser?.categoryMaster?.categoryName }}</p>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-6 d-flex justify-content-start">
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <button class="btn btn-danger" (click)="onCancel()">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

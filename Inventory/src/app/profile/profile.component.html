@@ -1,0 +1,63 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<div class="container">
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h4>User Profile</h4>
+          </div>
+          <div class="card-body">
+            <div class="text-center mb-4">
+              <img src="https://via.placeholder.com/150" alt="User Avatar" class="rounded-circle">
+            </div>
+            <h2 class="text-center mb-3">{{ registerUser.firstName }} {{ registerUser.lastName }}</h2>
+            <hr>
+            <div class="row">
+              <div class="col-md-6 d-flex justify-content-start">
+                <h3 class="text-primary">Personal Details</h3>
+              </div>
+              <div class="col-md-6 d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="edit()"><i class="fa fa-edit"></i></button>
+              </div>  
+            </div>
+           
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Email:</strong> {{ registerUser.email }}</p>
+                <p><strong>Phone:</strong> {{ registerUser.phoneNo }}</p>                
+              </div>
+              <div class="col-md-6">
+                <p><strong>Gender:</strong> {{ registerUser.gender }}</p>
+                <p><strong>Date of Birth:</strong> {{ registerUser.dateOfBirth | date: 'mediumDate' }}</p>                               
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Address:</strong> {{ registerUser.address }}</p>
+                    <p><strong>Pincode:</strong> {{ registerUser.postalCode }}</p>             
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Country:</strong> {{ registerUser.countryMasters.country }}</p>
+                    <p><strong>State:</strong> {{ registerUser.stateMaster.state }}</p>         
+                </div>
+              </div>    
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Category:</strong> {{ registerUser.categoryMaster.categoryName }}</p>              
+                </div>
+                <div class="col-md-6">                           
+                </div>
+              </div>
+              <hr>
+            <h3 class="text-primary">Other Details</h3>          
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="editModal==true">
+      <app-edit></app-edit>
+    </div>
+  </div>
+  

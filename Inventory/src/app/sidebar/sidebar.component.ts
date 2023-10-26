@@ -70,6 +70,7 @@ hasSubmenus(menuId:number){
 ngOnInit(): void {
   this.sidebarService.getMenus().subscribe({
     next: (response: APIResponse) => {
+     
       if (response.isSuccess) {
         this.menus = response.result;
         this.menus.forEach(element => {
@@ -85,10 +86,22 @@ ngOnInit(): void {
         }else if(element.controller=='RoleMenuMap'){
           element.path='/roleMenuMap';
         }
+        else if(element.controller=='Register'){
+          element.path='/user';
+          console.log(element.controller);
+        }
         else if(element.controller=='dashboard'){
           element.path='/dashboard';
         }
+        
+        else if(element.controller=='Category'){
+          element.path='/category';
+        }
+        else{
+          element.path='/invalid';
+        }
         });
+
       } else {
         console.error('API Request failed:', response.message);
       }
